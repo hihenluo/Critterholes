@@ -12,6 +12,7 @@ import GamePage from "./pages/GamePage";
 import InfoPage from "./pages/InfoPage";
 import { UserPage } from "./pages/UserPage";
 import MintPage from "./pages/MintPage";
+import SwapPage from "./pages/SwapPage"; // Import SwapPage
 import "./index.css";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="info" element={<InfoPage />} />
         <Route path="user" element={<UserPage />} />
         <Route path="mint" element={<MintPage />} />
+        <Route path="swap" element={<SwapPage />} />
         <Route path="*" element={<HomePage />} />
       </Routes>
     </Router>

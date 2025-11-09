@@ -3,7 +3,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAccount } from 'wagmi';
 import { useHasHammerNft } from '../hooks/useHasHammerNft';
-import { IoInformationCircle, IoGameController, IoPerson } from 'react-icons/io5';
+import { IoInformationCircle, IoGameController, IoPerson, IoSwapHorizontal } from 'react-icons/io5';
 
 const HomePage: React.FC = () => {
   const { isConnected } = useAccount();
@@ -65,6 +65,11 @@ const HomePage: React.FC = () => {
             <IoGameController size={40} className="text-white" />
             <span className="mt-2 font-bold">{isLoading ? "Checking..." : "Play"}</span>
           </button>
+
+          <Link to="/swap" className="flex flex-col items-center p-4 bg-black/20 rounded-lg transform transition-all hover:scale-110">
+            <IoSwapHorizontal size={40} className="text-green-300" />
+            <span className="mt-2 font-bold">Swap</span>
+          </Link>
 
           <Link to="/user" className="flex flex-col items-center p-4 bg-black/20 rounded-lg transform transition-all hover:scale-110">
             <IoPerson size={40} className="text-yellow-300" />
