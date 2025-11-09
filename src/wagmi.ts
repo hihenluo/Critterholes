@@ -25,7 +25,6 @@ createAppKit({
   },
   features: {
     history: false,
-    send: true,
   },
   themeMode: "dark",
 });
