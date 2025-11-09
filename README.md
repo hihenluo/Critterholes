@@ -1,69 +1,161 @@
-# React + TypeScript + Vite
+# 🕳️ CritterHoles on Celo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript)
+![Vite](https://img.shields.io/badge/Vite-7.0-646CFF?logo=vite)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.1-38BDF8?logo=tailwindcss)
+![Celo](https://img.shields.io/badge/Celo-Mainnet-35D07F?logo=celo)
+![Reown](https://img.shields.io/badge/Reown-AppKit-8A2BE2?logo=walletconnect)
+![Wagmi](https://img.shields.io/badge/Wagmi-2.16-FF9900?logo=ethereum)
+![Farcaster](https://img.shields.io/badge/Farcaster-MiniApp-6F00FF?logo=farcaster)
+![Cloudflare](https://img.shields.io/badge/Cloudflare-Functions-F38020?logo=cloudflare)
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🎮 Overview
 
-## Expanding the ESLint configuration
+**CritterHoles on Celo** is a blockchain-based casual game built on **Celo Mainnet**, where players whack critters, earn points, and claim on-chain rewards.  
+The game uses **React + TypeScript + Vite** with **Reown AppKit**, **wagmi**, and a Cloudflare backend for claim verification.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🧩 Gameplay
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### 🎯 Objective
+- Hit critters as they pop up before time runs out.
+- Each critter type gives different scores based on rarity:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Critter | Image | Points | Rarity |
+|----------|--------|---------|---------|
+| 🐹 Mole | ![mole](./src/assets/mole.webp) | 1 | Common |
+| 🦨 Skunk | ![skunk](./src/assets/skunk.webp) | 2 | Uncommon |
+| 🐇 Rabbit | ![rabbit](./src/assets/rabbit.webp) | 3 | Rare |
+
+### 🪓 Requirement
+You must own a **Hammer NFT** to play. Mint one on the **Mint Page** using the `mint()` function in the Celo contract.
+
+### 💰 Rewards
+- After the game ends, scores are converted into `$CHP` tokens.
+- Random rewards include `$ETHIX` or `$GoodDollar`.
+- Players have a **daily claim limit**, read from the contract.
+- Claims are verified through a Cloudflare Function at `/api/claim`.
+
+---
+
+## 🪙 Game Economy
+
+- `$CHP` — main in-game point token.  
+- `$ETHIX` and `$GoodDollar` — bonus tokens randomly distributed.  
+- Smart contracts are managed in the [Hardhat repository](https://github.com/hihenluo/hardhat).
+
+---
+
+## ⚙️ Architecture
+
+| Layer | Description |
+|-------|--------------|
+| **Frontend** | React 19 + TypeScript + Vite 7 |
+| **Blockchain** | Celo Mainnet |
+| **Wallet Integration** | Reown AppKit + wagmi + viem |
+| **Backend** | Cloudflare Functions (`/functions/claim.ts`) |
+| **UI Framework** | TailwindCSS + Framer Motion |
+| **MiniApp** | Farcaster integration |
+
+---
+
+## 🧑‍💻 Setup & Development
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/hihenluo/Critterholes.git
+cd Critterholes
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2️⃣ Install Dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+### 3️⃣ Environment Variables
+
+In the `functions/` directory, create an `.env` file:
+
+```bash
+SIGNER_PRIVATE_KEY=your_private_key
+ETHIX_TOKEN_ADDRESS=your_ethix_token_address
+G_TOKEN_ADDRESS=your_gooddollar_token_address
+CELO_RPC_URL=https://forno.celo.org
+```
+
+> These variables are used by the Cloudflare Function `/api/claim` to sign reward claims and interact with Celo smart contracts.
+
+---
+
+## 🚀 Run the Game
+
+### Start Development Server
+```bash
+npm run dev
+```
+
+### Build for Production
+```bash
+npm run build
+```
+
+### Preview Production Build
+```bash
+npm run preview
+```
+
+---
+
+## ☁️ Cloudflare Function
+
+### `/functions/claim.ts`
+
+Handles reward claiming logic:
+- Validates connected wallet and score.
+- Generates and returns claim signature (`v`, `r`, `s`, `databytes`).
+- Interacts with Celo contracts to confirm reward eligibility.
+
+Deploy to Cloudflare with:
+
+```bash
+npx wrangler deploy
+```
+
+---
+
+## 🧠 Game Flow Summary
+
+1. Player connects wallet using Reown.  
+2. System checks Hammer NFT ownership.  
+3. If missing, mint one before playing.  
+4. During the game, player earns points.  
+5. After game ends, claim reward via `/api/claim`.  
+6. Backend signs transaction and executes `claim()` on-chain.  
+
+---
+
+## 🔗 Useful Links
+
+- 🎮 [Main Game Repo](https://github.com/hihenluo/Critterholes-on-Celo)
+- 💻 [Smart Contract Repo (Hardhat)](https://github.com/hihenluo/hardhat)
+- 💚 [Celo Network](https://celo.org/)
+- 🔐 [Reown AppKit](https://reown.io/)
+- 🌐 [Cloudflare Pages](https://developers.cloudflare.com/pages/)
+
+---
+
+## 📜 License
+
+Licensed under the [MIT License](https://github.com/hihenluo/Critterholes-on-Celo/blob/main/LICENSE.md)
+
+---
+
+### 💫 Built with ❤️ by the CritterHoles Team  
+_on Celo Mainnet • Powered by Reown & Farcaster_
